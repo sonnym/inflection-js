@@ -1,12 +1,49 @@
+/*
+  This code is based in part on the work done in Ruby to support
+  infection as part of Ruby on Rails in the ActiveSupport's Inflector
+  and Inflections classes.  It was initally ported to Javascript by
+  Ryan Schuft (ryan.schuft@gmail.com).  It is freely available without
+  limitation for reuse or extension by anyone for any usage scenario.
+
+  The code is available at http://code.google.com/p/inflection-js/
+
+  The basic usage is:
+    1. Include this script on your web page.
+    2. Call functions on any String object in Javascript
+
+  Currently implemented functions:
+    pluralize(override_string)
+      renders a singular English language noun into its plural form
+      normal results can be overridden by passing in an alternative
+*/
+
+/*
+  This function adds plurilization support to every String object
+    Signature:
+      String.pluralize(plural)
+    Arguments:
+      plural - String (optional) - overrides normal output with said String
+    Returns:
+      String - singular English language nouns are returned in plural form
+    Examples:
+      "person".pluralize() == "people"
+      "octopus".pluralize() == "octopi"
+      "Hat".pluralize() == "Hats"
+      "person".pluralize("guys") == "guys"
+*/
 if(!String.prototype.pluralize)String.prototype.pluralize=function(plural)
 {
   var str=this;
   if(plural)str=plural;
   else
   {
-    var uncountable_words=['equipment','information','rice','money','species','series','fish','sheep','moose','deer'];
+    var uncountable_words=[
+      'equipment','information','rice','money','species','series','fish',
+      'sheep','moose','deer'
+    ];
     var uncountable=false;
-    for(var x=0;!uncountable&&x<uncountable_words.length;x++)uncountable=(uncountable_words[x].toLowerCase()==str.toLowerCase());
+    for(var x=0;!uncountable&&x<uncountable_words.length;x++)
+      uncountable=(uncountable_words[x].toLowerCase()==str.toLowerCase());
     if(!uncountable) 
     {
       var rules=[
