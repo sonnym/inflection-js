@@ -12,7 +12,7 @@
     2. Call functions on any String object in Javascript
 
   Currently implemented functions:
-    pluralize(override_string)
+    String.pluralize(plural)
       renders a singular English language noun into its plural form
       normal results can be overridden by passing in an alternative
 */
@@ -20,7 +20,7 @@
 /*
   This function adds plurilization support to every String object
     Signature:
-      String.pluralize(plural)
+      String.pluralize(plural) == String
     Arguments:
       plural - String (optional) - overrides normal output with said String
     Returns:
