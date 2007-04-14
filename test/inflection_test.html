@@ -4,13 +4,18 @@
 </head>
 <body>
 <script>
+/*
+  This code runs several special cases and some normal singular nouns through
+  the inflection code that modified String to have the pluralize function on
+  it.  The results are shown on the resulting web page for human inspection.
+*/
 var t=[
-  'person','man','woman','child','sex','move',
-  'Person','Man','Woman','Child','Sex','Move',
-  'equipment','information','rice','money','species','series','fish','sheep','deer',
-  'Equipment','Information','Rice','Money','Species','Series','Fish','Sheep','Deer',
-  'octopus','wolf','potato','fool','blue','bus','student','tuna',
-  'Octopus','Wolf','Potato','Fool','Blue','Bus','Student','Tuna'
+  'person','man','woman','child','sex','move','Person','Man','Woman','Child',
+  'Sex','Move','equipment','information','rice','money','species','series',
+  'fish','sheep','deer','Equipment','Information','Rice','Money','Species',
+  'Series','Fish','Sheep','Deer','octopus','wolf','potato','fool','blue',
+  'bus','student','tuna','Octopus','Wolf','Potato','Fool','Blue','Bus',
+  'Student','Tuna'
 ];
 for(var x=0;x<t.length;x++)document.writeln(t[x].pluralize()+'<br>');
 document.writeln('hamburger'.pluralize('hotdogs')+'<br>');
