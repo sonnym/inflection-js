@@ -12,7 +12,7 @@
     2. Call functions on any String object in Javascript
 
   Currently implemented functions:
-    String.pluralize(plural)
+    String.pluralize(plural) == String
       renders a singular English language noun into its plural form
       normal results can be overridden by passing in an alternative
 */
