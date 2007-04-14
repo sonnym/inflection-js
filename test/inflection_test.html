@@ -29,18 +29,44 @@ THE SOFTWARE.
   This code runs several special cases and some normal singular nouns through
   the inflection code that modified String to have the pluralize function on
   it.  The results are shown on the resulting web page for human inspection.
+  It also converts everything back into its singular form to compare results.
 */
-var t=[
+var s=[
   'person','man','woman','child','sex','move','Person','Man','Woman','Child',
   'Sex','Move','equipment','information','rice','money','species','series',
   'fish','sheep','deer','Equipment','Information','Rice','Money','Species',
   'Series','Fish','Sheep','Deer','octopus','wolf','potato','fool','blue',
   'bus','student','tuna','Octopus','Wolf','Potato','Fool','Blue','Bus',
-  'Student','Tuna'
+  'Student','Tuna','news','News'
 ];
-for(var x=0;x<t.length;x++)document.writeln(t[x].pluralize()+'<br>');
-document.writeln('hamburger'.pluralize('hotdogs')+'<br>');
-document.writeln('Hamburger'.pluralize('Hotdogs')+'<br>');
+var p=[];
+var r=[];
+for(var x=0;x<s.length;x++)
+{
+  p[x]=s[x].pluralize();
+  var passed=(s[x]==p[x].singularize());
+  r[x]="<font style='color:"+((passed)?("Black"):("Red"))+";'>";
+  r[x]+="Test "+((passed)?("Passed"):("Failed"));
+  r[x]+=": "+s[x]+" -> "+p[x]+" -> "+p[x].singularize();
+  r[x]+="</font>";
+}
+var x=r.length;
+s[x]='hamburger';
+p[x]=s[x].pluralize('nonsense');
+var passed=(s[x].singularize('nonsense')==p[x]);
+r[x]="<font style='color:"+((passed)?("Black"):("Red"))+";'>";
+r[x]+="Override Test "+((passed)?("Passed"):("Failed"));
+r[x]+=": "+s[x]+" -> "+p[x]+" -> "+p[x].singularize('nonsense');
+r[x]+="</font>";
+x=r.length;
+s[x]='Hamburger';
+p[x]=s[x].pluralize('Nonsense');
+var passed=(s[x].singularize('Nonsense')==p[x]);
+r[x]="<font style='color:"+((passed)?("Black"):("Red"))+";'>";
+r[x]+="Override Test "+((passed)?("Passed"):("Failed"));
+r[x]+=": "+s[x]+" -> "+p[x]+" -> "+p[x].singularize('Nonsense');
+r[x]+="</font>";
+for(var x=0;x<r.length;x++)document.writeln(r[x]+'<br>');
 </script>
 </body>
 </html>
