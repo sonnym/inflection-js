@@ -68,6 +68,14 @@ r[x]+="Override Test "+((passed)?("Passed"):("Failed"));
 r[x]+=": "+s[x]+" -> "+p[x]+" -> "+p[x].singularize('Nonsense');
 r[x]+="</font>";
 for(var x=0;x<r.length;x++)document.writeln(r[x]+'<br>');
+var c1="this_is_a_test";
+var c2="THIS_IS_A_TEST";
+var c3="this/is/a/path/to/a/clever_module";
+var c4="THIS/IS/A/PATH/TO/A/CLEVER_MODULE";
+document.writeln("Camelize test: "+c1.camelize()+" and "+c2.camelize(true));
+document.writeln("<br>");
+document.writeln("Camelize test: "+c3.camelize()+" and "+c4.camelize(true));
+document.writeln("<br>");
 </script>
 </body>
 </html>

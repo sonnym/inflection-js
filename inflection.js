@@ -41,6 +41,10 @@ THE SOFTWARE.
     String.singularize(singular) == String
       renders a plural English language noun into its singular form
       normal results can be overridden by passing in an alterative
+
+    String.camelize(lowFirstLetter) == String
+      renders a lower case underscored word into camel case
+      the first letter of the result will be upper case unless you pass true
 */
 
 /*
@@ -191,4 +195,35 @@ if(!String.prototype._singular_rules)String.prototype._singular_rules=[
   [new RegExp('(quiz)zes$','gi'), '$1'],
   [new RegExp('s$','gi'), '']
 ];
+
+/*
+  This function adds camelization support to every String object
+    Signature:
+      String.camelize(lowFirstLetter) == String
+    Arguments:
+      lowFirstLetter - boolean (optional) - default is to capitalize the first
+        letter of the results... passing true will lowercase it
+    Returns:
+      String - lower case underscored words will be returned in camel case
+        additionally '/' is translated to '::'
+    Examples:
+      "message_properties".camelize() == "MessageProperties"
+      "message_properties".camelize(true) == "messageProperties"
+*/
+if(!String.prototype.camelize)
+  String.prototype.camelize=function(lowFirstLetter)
+  {
+    var str=this.toLowerCase();
+    var str_path=str.split('/');
+    for(var i=0;i<str_path.length;i++)
+    {
+      var str_arr=str_path[i].split('_');
+      var initX=((lowFirstLetter&&i+1==str_path.length)?(1):(0));
+      for(var x=initX;x<str_arr.length;x++)
+        str_arr[x]=str_arr[x].charAt(0).toUpperCase()+str_arr[x].substring(1);
+      str_path[i]=str_arr.join('');
+    }
+    str=str_path.join('::');
+    return str;
+  };
 
