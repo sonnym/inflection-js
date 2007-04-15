@@ -63,8 +63,11 @@ THE SOFTWARE.
     String.titleize() == String
       renders words into title casing (as for book titles)
 
+    String.demodulize() == String
+      renders class names that are prepended by modules into just the class
+
   To be implemented:
-    demodulize, tableize, classify, foreign_key, constantize, and ordinalize
+    tableize, classify, foreign_key, and ordinalize
 */
 
 /*
@@ -376,3 +379,43 @@ if(!String.prototype._non_titlecased_words)
     'and','or','nor','a','an','the','so','but','to','of','at','by','from',
     'into','on','onto','off','out','in','over','with','for'
   ];
+
+/*
+  This function adds demodulize support to every String object
+    Signature:
+      String.demodulize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - removes module names leaving only class names (Ruby style)
+    Examples:
+      "Message::Bus::Properties".demodulize() == "Properties"
+*/
+if(!String.prototype.demodulize)
+  String.prototype.demodulize=function()
+  {
+    var str=this;
+    var str_arr=str.split('::');
+    str=str_arr[str_arr.length-1];
+    return str;
+  };
+
+/*
+  This function adds tableize support to every String object
+    Signature:
+      String.tableize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - renders camel cased words into their underscored plural form
+    Examples:
+      "MessageBusProperty".tableize() == "message_bus_properties"
+*/
+if(!String.prototype.tableize)
+  String.prototype.tableize=function()
+  {
+    var str=this;
+    str=str.underscore().pluralize();
+    return str;
+  };
+
