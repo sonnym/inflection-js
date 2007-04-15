@@ -49,6 +49,10 @@ THE SOFTWARE.
     String.underscore() == String
       renders a camel cased word into words seperated by underscores
       also translates "::" back into "/" (camelize does the opposite)
+
+    String.humanize(lowFirstLetter) == String
+      renders a lower case and underscored word into human readable form
+      defaults to making the first letter capitalized unless you pass true
 */
 
 /*
@@ -254,6 +258,30 @@ if(!String.prototype.underscore)
     for(var i=0;i<str_path.length;i++)
       str_path[i]=str_path[i].replace(upCase,'_$1').replace(fb,'');
     str=str_path.join('/').toLowerCase();
+    return str;
+  };
+
+/*
+  This function adds humanize support to every String object
+    Signature:
+      String.humanize(lowFirstLetter) == String
+    Arguments:
+      lowFirstLetter - boolean (optional) - default is to capitalize the first
+        letter of the results... passing true will lowercase it
+    Returns:
+      String - lower case underscored words will be returned in humanized form
+    Examples:
+      "message_properties".humanize() == "Message properties"
+      "message_properties".humanize(true) == "message properties"
+*/
+if(!String.prototype.humanize)
+  String.prototype.humanize=function(lowFirstLetter)
+  {
+    var str=this.toLowerCase();
+    str=str.replace(new RegExp('_','g'),' ');
+    var fc=str.substring(0,1);
+    var fcm=((lowFirstLetter)?(fc):(fc.toUpperCase()));
+    str=fcm+str.substring(1);
     return str;
   };
 
