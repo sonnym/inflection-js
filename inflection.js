@@ -56,6 +56,10 @@ THE SOFTWARE.
 
     String.capitalize() == String
       renders all characters to lower case and then makes the first upper
+
+  To be implemented:
+    titleize, dasherize, demodulize, tableize, classify, foreign_key,
+    constantize, and ordinalize
 */
 
 /*
