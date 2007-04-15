@@ -45,6 +45,10 @@ THE SOFTWARE.
     String.camelize(lowFirstLetter) == String
       renders a lower case underscored word into camel case
       the first letter of the result will be upper case unless you pass true
+
+    String.underscore() == String
+      renders a camel cased word into words seperated by underscores
+      also translates "::" back into "/" (camelize does the opposite)
 */
 
 /*
@@ -224,6 +228,32 @@ if(!String.prototype.camelize)
       str_path[i]=str_arr.join('');
     }
     str=str_path.join('::');
+    return str;
+  };
+
+/*
+  This function adds underscore support to every String object
+    Signature:
+      String.underscore() == String
+    Arguments:
+      N/A
+    Returns:
+      String - camel cased words are returned as lower cased and underscored
+        additionally '::' is translated to '/'
+    Examples:
+      "MessageProperties".camelize() == "message_properties"
+      "messageProperties".underscore() == "message_properties"
+*/
+if(!String.prototype.underscore)
+  String.prototype.underscore=function()
+  {
+    var str=this;
+    var str_path=str.split('::');
+    var upCase=new RegExp('([ABCDEFGHIJKLMNOPQRSTUVWXYZ])','g');
+    var fb=new RegExp('^_');
+    for(var i=0;i<str_path.length;i++)
+      str_path[i]=str_path[i].replace(upCase,'_$1').replace(fb,'');
+    str=str_path.join('/').toLowerCase();
     return str;
   };
 
