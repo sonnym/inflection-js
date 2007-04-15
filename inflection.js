@@ -45,6 +45,7 @@ THE SOFTWARE.
     String.camelize(lowFirstLetter) == String
       renders a lower case underscored word into camel case
       the first letter of the result will be upper case unless you pass true
+      also translates "/" into "::" (underscore does the opposite)
 
     String.underscore() == String
       renders a camel cased word into words seperated by underscores
@@ -66,8 +67,19 @@ THE SOFTWARE.
     String.demodulize() == String
       renders class names that are prepended by modules into just the class
 
-  To be implemented:
-    tableize, classify, foreign_key, and ordinalize
+    String.tableize() == String
+      renders camel cased singular words into their underscored plural form
+
+    String.classify() == String
+      renders an underscored plural word into its camel cased singular form
+
+    String.foreign_key(dropIdUbar) == String
+      renders a class name (camel cased singular noun) into a foreign key
+      defaults to seperating the class from the id with an underbar unless
+      you pass true
+      
+    String.ordinalize() == String
+      renders all numbers found in the string into their sequence like "22nd"
 */
 
 /*
@@ -416,6 +428,83 @@ if(!String.prototype.tableize)
   {
     var str=this;
     str=str.underscore().pluralize();
+    return str;
+  };
+
+/*
+  This function adds classification support to every String object
+    Signature:
+      String.classify() == String
+    Arguments:
+      N/A
+    Returns:
+      String - underscored plural nouns become the camel cased singular form
+    Examples:
+      "message_bus_properties".classify() == "MessageBusProperty"
+*/
+if(!String.prototype.classify)
+  String.prototype.classify=function()
+  {
+    var str=this;
+    str=str.camelize().singularize();
+    return str;
+  };
+
+/*
+  This function adds foreign key support to every String object
+    Signature:
+      String.foreign_key(dropIdUbar) == String
+    Arguments:
+      dropIdUbar - boolean (optional) - default is to seperate id with an
+        underbar at the end of the class name, you can pass true to skip it
+    Returns:
+      String - camel cased singular class names become underscored with id
+    Examples:
+      "MessageBusProperty".foreign_key() == "message_bus_property_id"
+      "MessageBusProperty".foreign_key(true) == "message_bus_propertyid"
+*/
+if(!String.prototype.foreign_key)
+  String.prototype.foreign_key=function(dropIdUbar)
+  {
+    var str=this;
+    str=str.demodulize().underscore()+((dropIdUbar)?(''):('_'))+'id';
+    return str;
+  };
+
+/*
+  This function adds ordinalize support to every String object
+    Signature:
+      String.ordinalize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - renders all found numbers their sequence like "22nd"
+    Examples:
+      "the 1 pitch".ordinalize() == "the 1st pitch"
+*/
+if(!String.prototype.ordinalize)
+  String.prototype.ordinalize=function()
+  {
+    var str=this;
+    var str_arr=str.split(' ');
+    for(var x=0;x<str_arr.length;x++)
+    {
+	var i=parseInt(str_arr[x]);
+        if(""+i!="NaN")
+        {
+          var ltd=str_arr[x].substring(str_arr[x].length-2);
+          var ld=str_arr[x].substring(str_arr[x].length-1);
+          var suf="th";
+          if(ltd!="11"&&ltd!="12"&&ltd!="13")
+          {
+            if(ld=="1")suf="st";
+            else if(ld=="2")suf="nd";
+            else if(ld=="3")suf="rd";
+          }
+          str_arr[x]+=suf;
+        }
+    }
+    str=str_arr.join(' ');
     return str;
   };
 
