@@ -57,8 +57,11 @@ THE SOFTWARE.
     String.capitalize() == String
       renders all characters to lower case and then makes the first upper
 
+    String.dasherize() == String
+      renders all underbars and spaces as dashes
+
   To be implemented:
-    titleize, dasherize, demodulize, tableize, classify, foreign_key,
+    titleize, demodulize, tableize, classify, foreign_key,
     constantize, and ordinalize
 */
 
@@ -308,6 +311,26 @@ if(!String.prototype.capitalize)
   {
     var str=this.toLowerCase();
     str=str.substring(0,1).toUpperCase()+str.substring(1);
+    return str;
+  };
+
+/*
+  This function adds dasherization support to every String object
+    Signature:
+      String.dasherize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - replaces all spaces or underbars with dashes
+    Examples:
+      "message_properties".capitalize() == "message-properties"
+      "Message Properties".capitalize() == "Message-Properties"
+*/
+if(!String.prototype.dasherize)
+  String.prototype.dasherize=function()
+  {
+    var str=this;
+    str=str.replace(new RegExp('[\ _]','g'),'-');
     return str;
   };
 
