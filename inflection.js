@@ -283,9 +283,7 @@ if(!String.prototype.humanize)
     var str=this.toLowerCase();
     str=str.replace(new RegExp('_id','g'),'');
     str=str.replace(new RegExp('_','g'),' ');
-    var fc=str.substring(0,1);
-    var fcm=((lowFirstLetter)?(fc):(fc.toUpperCase()));
-    str=fcm+str.substring(1);
+    if(!lowFirstLetter)str=str.capitalize();
     return str;
   };
 
