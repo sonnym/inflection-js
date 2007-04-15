@@ -60,9 +60,11 @@ THE SOFTWARE.
     String.dasherize() == String
       renders all underbars and spaces as dashes
 
+    String.titleize() == String
+      renders words into title casing (as for book titles)
+
   To be implemented:
-    titleize, demodulize, tableize, classify, foreign_key,
-    constantize, and ordinalize
+    demodulize, tableize, classify, foreign_key, constantize, and ordinalize
 */
 
 /*
@@ -334,3 +336,43 @@ if(!String.prototype.dasherize)
     return str;
   };
 
+/*
+  This function adds titleize support to every String object
+    Signature:
+      String.titleize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - capitalizes words as you would for a book title
+    Examples:
+      "message_properties".titleize() == "Message Properties"
+      "message properties to keep".titleize() == "Message Properties to Keep"
+*/
+if(!String.prototype.titleize)
+  String.prototype.titleize=function()
+  {
+    var str=this.toLowerCase();
+    var t=new RegExp('^'+this._non_titlecased_words.join('$|^')+'$','i');
+    str=str.replace(new RegExp('_','g'),' ');
+    var str_arr=str.split(' ');
+    for(var x=0;x<str_arr.length;x++)
+    {
+      var d=str_arr[x].split('-');
+      for(var i=0;i<d.length;i++)if(!d[i].match(t))d[i]=d[i].capitalize();
+      str_arr[x]=d.join('-');
+    }
+    str=str_arr.join(' ');
+    str=str.substring(0,1).toUpperCase()+str.substring(1);
+    return str;
+  };
+
+/*
+  This is a list of words that should not be capitalized for title case.
+  You can override this list for all Strings or just one depending on if you
+  set the new values on prototype or on a given String instance.
+*/
+if(!String.prototype._non_titlecased_words)
+  String.prototype._non_titlecased_words=[
+    'and','or','nor','a','an','the','so','but','to','of','at','by','from',
+    'into','on','onto','off','out','in','over','with','for'
+  ];
