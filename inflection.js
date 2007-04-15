@@ -53,6 +53,9 @@ THE SOFTWARE.
     String.humanize(lowFirstLetter) == String
       renders a lower case and underscored word into human readable form
       defaults to making the first letter capitalized unless you pass true
+
+    String.capitalize() == String
+      renders all characters to lower case and then makes the first upper
 */
 
 /*
@@ -278,10 +281,31 @@ if(!String.prototype.humanize)
   String.prototype.humanize=function(lowFirstLetter)
   {
     var str=this.toLowerCase();
+    str=str.replace(new RegExp('_id','g'),'');
     str=str.replace(new RegExp('_','g'),' ');
     var fc=str.substring(0,1);
     var fcm=((lowFirstLetter)?(fc):(fc.toUpperCase()));
     str=fcm+str.substring(1);
+    return str;
+  };
+
+/*
+  This function adds capitalization support to every String object
+    Signature:
+      String.capitalize() == String
+    Arguments:
+      N/A
+    Returns:
+      String - all characters will be lower case and the first will be upper
+    Examples:
+      "message_properties".capitalize() == "Message_properties"
+      "message properties".capitalize() == "Message properties"
+*/
+if(!String.prototype.capitalize)
+  String.prototype.capitalize=function()
+  {
+    var str=this.toLowerCase();
+    str=str.substring(0,1).toUpperCase()+str.substring(1);
     return str;
   };
 
