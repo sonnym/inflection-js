@@ -108,7 +108,7 @@ if(!String.prototype.pluralize)String.prototype.pluralize=function(plural)
     if(!uncountable) 
     {
       var matched=false;
-      for(var x=0;!matched&&x<=this._plural_rules.length;x++)
+      for(var x=0;!matched&&x<this._plural_rules.length;x++)
       {
         matched=str.match(this._plural_rules[x][0]);
         if(matched)
@@ -146,7 +146,7 @@ if(!String.prototype.singularize)
       if(!uncountable)
       {
         var matched=false;
-        for(var x=0;!matched&&x<=this._singular_rules.length;x++)
+        for(var x=0;!matched&&x<this._singular_rules.length;x++)
         {
           matched=str.match(this._singular_rules[x][0]);
           if(matched)
@@ -211,6 +211,7 @@ if(!String.prototype._singular_rules)String.prototype._singular_rules=[
     'gi'),'$1$2sis'],
   [new RegExp('(hive)s$','gi'), '$1'],
   [new RegExp('(tive)s$','gi'), '$1'],
+  [new RegExp('(curve)s$','gi'), '$1'],
   [new RegExp('([lr])ves$','gi'), '$1f'],
   [new RegExp('([^fo])ves$','gi'), '$1fe'],
   [new RegExp('([^aeiouy]|qu)ies$','gi'), '$1y'],
